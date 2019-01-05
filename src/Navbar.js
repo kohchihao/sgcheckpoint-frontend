@@ -86,7 +86,7 @@ class Navbar extends Component {
           <Grid item xs={12} sm={6}>
             <div className={classes.paperRight}>
               <h6 className={classes.paperLeftName}>{this.state.ratesDate}</h6>
-              <h3 className={classes.paperLeftTitle}>SGD 1 → {this.state.rates}</h3>
+              <h3 className={classes.paperLeftTitle}>SGD 1 → RM{this.state.rates}</h3>
             </div>
           </Grid>
         </Grid>
