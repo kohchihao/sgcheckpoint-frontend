@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import rp from 'request-promise';
 import config from './config.json';
+
+import { useFetch } from './hooks';
 
 const styles = theme => ({
   root: {
@@ -11,7 +12,7 @@ const styles = theme => ({
     height: '220px',
     display: 'flex',
     justifyContent: 'center',
-    fontFamily: 'Cabin, sans-serif',
+    fontFamily: 'Cabin, sans-serif'
   },
   container: {
     paddingTop: '30px',
@@ -20,12 +21,12 @@ const styles = theme => ({
     paddingRight: '20px',
     [theme.breakpoints.up('sm')]: {
       paddingLeft: '0px',
-      paddingRight: '0px',
-    },
+      paddingRight: '0px'
+    }
   },
   paperLeft: {
     textAlign: 'left',
-    color: theme.palette.text.secondary,
+    color: theme.palette.text.secondary
   },
   paperLeftTitle: {
     margin: 0,
@@ -39,60 +40,39 @@ const styles = theme => ({
   },
   paperRight: {
     textAlign: 'left',
-    color: theme.palette.text.secondary,
-  },
+    color: theme.palette.text.secondary
+  }
 });
 
-class Navbar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      rates: ' ',
-      ratesDate: ''
-    }
-  }
+const Navbar = ({ classes }) => {
+  const [data, loading] = useFetch(config.uri + '/rates');
 
-  componentDidMount() {
-    this._fetchRates();
-  }
-
-  _fetchRates = () => {
-    let options = {
-      uri: config.uri + '/rates',
-      json: true // Automatically parses the JSON string in the response
-    };
-  
-    rp(options)
-      .then(data => {
-        this.setState({
-          rates: data.rates.MYR,
-          ratesDate: data.date
-        })
-      });
-  }
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <Grid container spacing={16} className={classes.container}>
-          <Grid item xs={12} sm={6} >
-            <div className={classes.paperLeft}>
-              <h3 className={classes.paperLeftTitle}>SGCheckpoint</h3>
-              <h6 className={classes.paperLeftName}>by Marcus.K</h6>
-            </div>
-          </Grid>
- 
-          <Grid item xs={12} sm={6}>
-            <div className={classes.paperRight}>
-              <h6 className={classes.paperLeftName}>{this.state.ratesDate}</h6>
-              <h3 className={classes.paperLeftTitle}>SGD 1 → RM{this.state.rates}</h3>
-            </div>
-          </Grid>
+  return (
+    <div className={classes.root}>
+      <Grid container spacing={16} className={classes.container}>
+        <Grid item xs={12} sm={6}>
+          <div className={classes.paperLeft}>
+            <h3 className={classes.paperLeftTitle}>SGCheckpoint</h3>
+            <h6 className={classes.paperLeftName}>by Marcus.K</h6>
+          </div>
         </Grid>
-      </div>
-    );
-  }
-}
+
+        <Grid item xs={12} sm={6}>
+          <div className={classes.paperRight}>
+            {loading ? null : (
+              <>
+                <h6 className={classes.paperLeftName}>{data.date}</h6>
+                <h3 className={classes.paperLeftTitle}>
+                  SGD 1 → RM{data.rates.MYR}
+                </h3>
+              </>
+            )}
+          </div>
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
+
 //make this component available to the app
 export default withStyles(styles)(Navbar);
