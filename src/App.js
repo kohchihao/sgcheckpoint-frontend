@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 
 import Navbar from './Navbar';
@@ -7,27 +7,23 @@ import Footer from './Footer';
 
 import ReactGA from 'react-ga';
 
-class App extends Component {
-
-  constructor(props) {
-    super(props);
-    this.initializeReactGA();
-  }
-
-  initializeReactGA = () => {
+const App = () => {
+  const initializeReactGA = () => {
     ReactGA.initialize('UA-69828666-1');
     ReactGA.pageview('/');
   };
 
-  render() {
-    return (
-      <div className="App">
-        <Navbar />
-        <Content />
-        <Footer />
-      </div>
-    );
-  }
+  useEffect(() => {
+    initializeReactGA();
+  },[])
+
+  return (
+    <div className="App">
+      <Navbar />
+      <Content />
+      <Footer />
+    </div>
+  );
 }
 
 export default App;
