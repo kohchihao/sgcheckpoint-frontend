@@ -45,7 +45,7 @@ const styles = theme => ({
 });
 
 const Navbar = ({ classes }) => {
-  const [data, loading] = useFetch(config.uri + '/rates');
+  const [data, loading, error] = useFetch(config.uri + '/rates');
 
   return (
     <div className={classes.root}>
@@ -60,11 +60,9 @@ const Navbar = ({ classes }) => {
         <Grid item xs={12} sm={6}>
           <div className={classes.paperRight}>
             {loading ? (
-              <PulseLoader
-                sizeUnit={'px'}
-                size={7}
-                color={'#ffffff'}
-              />
+              <PulseLoader sizeUnit={'px'} size={7} color={'#ffffff'} />
+            ) : error ? (
+              <div>{error}</div>
             ) : (
               <>
                 <h6 className={classes.paperLeftName}>{data.date}</h6>
