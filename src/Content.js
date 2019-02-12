@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import rp from 'request-promise';
 import config from './config.json';
 import TrafficCard from './TrafficCard';
+
+import { useFetch } from './hooks';
 
 const styles = theme => ({
   root: {
@@ -18,60 +19,40 @@ const styles = theme => ({
   },
   container: {
     maxWidth: '600px'
-  },
+  }
 });
 
-class Content extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      listTraffic: []
-    };
-  }
+const Content = props => {
+  const [data, loading, error] = useFetch(config.uri + '/api/images');
 
-  componentDidMount() {
-    this._fetchTrafficImages();
-  }
+  const { classes } = props;
 
-  _fetchTrafficImages = () => {
-    let options = {
-      uri: config.uri + '/api/images',
-      json: true // Automatically parses the JSON string in the response
-    };
-
-    rp(options).then(data => {
-      this.setState({
-        listTraffic: data
-      });
-    });
-  };
-
-  render() {
-    const { classes } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="stretch"
-          spacing={16}
-          className={classes.container}
-        >
-          {this.state.listTraffic.map((traffic, index) => (
+  return (
+    <div className={classes.root}>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="stretch"
+        spacing={16}
+        className={classes.container}
+      >
+        {loading ? null : error ? (
+          <div>{error}</div>
+        ) : (
+          data.map((traffic, index) => (
             <TrafficCard
               key={index}
               imageURL={traffic.mImageURL}
               name={traffic.mName}
               dateTime={traffic.mCreateDate}
             />
-          ))}
-        </Grid>
-      </div>
-    );
-  }
-}
+          ))
+        )}
+      </Grid>
+    </div>
+  );
+};
 
 //make this component available to the app
 export default withStyles(styles)(Content);
