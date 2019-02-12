@@ -1,19 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
+
+import Img from 'react-image';
+import PulseLoader from 'react-spinners/PulseLoader';
+
+import camera from './camera_down.png';
 
 const styles = theme => ({
   card: {
     maxWidth: 600
   },
   media: {
-    height: 300
+    height: 300,
+    width: '100%'
   },
   cardContent: {
     display: 'flex',
@@ -22,37 +27,28 @@ const styles = theme => ({
   }
 });
 
-class TrafficCard extends Component {
+const TrafficCard = props => {
+  const { imageURL, name, dateTime } = props;
+  const { classes } = props;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      image: ''
-    };
-  }
-  render() {
-    const { imageURL, name, dateTime } = this.props;
-    const { classes } = this.props;
-
-    return (
-      <Grid item>
-        <Card className={classes.card}>
-          <CardMedia
-            className={classes.media}
-            image={imageURL}
-            title="Contemplative Reptile"
-          />
-          <CardContent className={classes.cardContent}>
-            <Typography variant="h6" component="h3">
-              {name}
-            </Typography>
-            <Typography variant="body2">{dateTime}</Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    );
-  }
-}
+  return (
+    <Grid item>
+      <Card className={classes.card}>
+        <Img
+          src={[imageURL, camera]}
+          loader={<PulseLoader sizeUnit={'px'} size={7} color={'#000'} />}
+          className={classes.media}
+        />
+        <CardContent className={classes.cardContent}>
+          <Typography variant="h6" component="h3">
+            {name}
+          </Typography>
+          <Typography variant="body2">{dateTime}</Typography>
+        </CardContent>
+      </Card>
+    </Grid>
+  );
+};
 
 TrafficCard.propTypes = {
   imageURL: PropTypes.string.isRequired,
