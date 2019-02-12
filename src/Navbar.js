@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import config from './config.json';
-
+import PulseLoader from 'react-spinners/PulseLoader';
 import { useFetch } from './hooks';
 
 const styles = theme => ({
@@ -59,7 +59,13 @@ const Navbar = ({ classes }) => {
 
         <Grid item xs={12} sm={6}>
           <div className={classes.paperRight}>
-            {loading ? null : (
+            {loading ? (
+              <PulseLoader
+                sizeUnit={'px'}
+                size={7}
+                color={'#ffffff'}
+              />
+            ) : (
               <>
                 <h6 className={classes.paperLeftName}>{data.date}</h6>
                 <h3 className={classes.paperLeftTitle}>
