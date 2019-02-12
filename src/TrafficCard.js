@@ -41,7 +41,7 @@ const TrafficCard = props => {
         <div className={classes.media}>
           <Img
             src={[imageURL, camera]}
-            loader={<BarLoader width={'100%'} color={'#e0e0e0'} />}
+            loader={<BarLoader widthUnit={'%'} width={100} color={'#e0e0e0'} />}
             className={classes.img}
           />
         </div>
