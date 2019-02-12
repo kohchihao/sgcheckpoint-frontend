@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 import Img from 'react-image';
-import PulseLoader from 'react-spinners/PulseLoader';
+import BarLoader from 'react-spinners/BarLoader';
 
 import camera from './camera_down.png';
 
@@ -24,6 +24,10 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start'
+  },
+  img: {
+    height: '100%',
+    width: '100%'
   }
 });
 
@@ -34,11 +38,14 @@ const TrafficCard = props => {
   return (
     <Grid item>
       <Card className={classes.card}>
-        <Img
-          src={[imageURL, camera]}
-          loader={<PulseLoader sizeUnit={'px'} size={7} color={'#000'} />}
-          className={classes.media}
-        />
+        <div className={classes.media}>
+          <Img
+            src={[imageURL, camera]}
+            loader={<BarLoader width={'100%'} color={'#e0e0e0'} />}
+            className={classes.img}
+          />
+        </div>
+
         <CardContent className={classes.cardContent}>
           <Typography variant="h6" component="h3">
             {name}
