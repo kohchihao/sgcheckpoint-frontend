@@ -11,15 +11,15 @@ const styles = theme => ({
   }
 });
 
-const Footer = ({ classes }) => {
+const Footer = ({ classes, name, facebook, instagram}) => {
   return (
     <footer className={classes.footer}>
-      <h5 className={classes.footerTitle}>CRAFTED BY MARCUS KOH CHI HAO</h5>
+      <h5 className={classes.footerTitle}>CRAFTED BY {name}</h5>
       <p className={classes.footerTitle}>DATA FROM WWW.MYTRANSPORT.SG</p>
-      <a href="https://www.facebook.com/singaporecheckpoint/">
+      <a href={facebook}>
         <i className="fab fa-facebook-square" />
       </a>
-      <a href="https://instagram.com/cheezyhao95/">
+      <a href={instagram}>
         <i className="fab fa-instagram" />
       </a>
     </footer>
