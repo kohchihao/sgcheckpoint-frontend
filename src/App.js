@@ -15,15 +15,19 @@ const App = () => {
 
   useEffect(() => {
     initializeReactGA();
-  },[])
+  }, []);
 
   return (
     <div className="App">
       <Navbar />
       <Content />
-      <Footer />
+      <Footer
+        name={'MARCUS KOH CHI HAO'}
+        facebook={'https://www.facebook.com/singaporecheckpoint/'}
+        instagram={'https://instagram.com/cheezyhao95/'}
+      />
     </div>
   );
-}
+};
 
 export default App;
